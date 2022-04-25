@@ -12,9 +12,10 @@
 
 MVP : Un plateforme avec un niveau 2D terminé + game over + Menu
 
-Amélioration : - Système ennemi 
-	       - Vie
-               - Attaque
+Amélioration : 
+- Système ennemi 
+- Vie
+           - Attaque
                - Bonus
 	       - Boss
 	       - Mode de difficulté (die and retry)
