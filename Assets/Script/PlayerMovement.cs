@@ -19,17 +19,18 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;
 
+    void Update() {       
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            isJumping = true;
+        }        
+    }
 
     void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position);
 
         float horizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
-
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            isJumping = true;
-        }
 
         MovePlayer(horizontalMovement);
 
