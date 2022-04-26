@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             isJumping = true;
-        }        
+        }
 
         if (!isGrounded) {
             animator.SetBool("isJumping", true);
