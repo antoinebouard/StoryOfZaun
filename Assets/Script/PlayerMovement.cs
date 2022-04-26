@@ -10,34 +10,41 @@ public class PlayerMovement : MonoBehaviour
     public bool isJumping;
     public bool isGrounded;
 
-    public Transform groundCheckLeft;
-    public Transform groundCheckRight;
+    public Transform groundCheck;
+    public float groundCheckRadius;
+    public LayerMask collisionLayers;
 
     public Rigidbody2D rb;
-    // public Animator animator;
-    // public SpriteRenderer spriteRenderer;
+    public Animator animator;
+    public SpriteRenderer spriteRenderer;
 
     private Vector3 velocity = Vector3.zero;
 
     void Update() {       
+        
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             isJumping = true;
         }        
-    }
 
-    void FixedUpdate()
-    {
-        isGrounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position);
-
-        float horizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
-
-        MovePlayer(horizontalMovement);
+        if (!isGrounded) {
+            animator.SetBool("isJumping", true);
+        } else {
+             animator.SetBool("isJumping", false);
+        }
 
         Flip(rb.velocity.x);
 
         float characterVelocity = Mathf.Abs(rb.velocity.x);
-        // animator.SetFloat("Speed", characterVelocity);
+        animator.SetFloat("Speed", characterVelocity);
+    }
+
+    void FixedUpdate()
+    {      
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, collisionLayers);
+        
+        float horizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
+        MovePlayer(horizontalMovement);      
     }
 
     void MovePlayer(float _horizontalMovement)
@@ -56,11 +63,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if(_velocity > 0.1f)
         {
-            // spriteRenderer.flipX = false;
+            spriteRenderer.flipX = false;
         } else if (_velocity < -0.1f)
         {
-            // spriteRenderer.flipX = true;
+            spriteRenderer.flipX = true;
         }
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 
 }
