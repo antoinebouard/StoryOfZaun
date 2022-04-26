@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isJumping;
     public bool isGrounded;
+    public bool isDuck;
 
     public Transform groundCheck;
     public float groundCheckRadius;
@@ -17,14 +18,26 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
+    public Joystick joystick;
 
     private Vector3 velocity = Vector3.zero;
+    private float horizontalMovement;
+    private float verticalMovement;
 
     void Update() {       
         
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (verticalMovement >= .6f && isGrounded)
         {
             isJumping = true;
+        }       
+
+        if (verticalMovement <= -.6f)
+        {
+            isDuck = true;
+            animator.SetBool("isDuck", true);
+        } else {
+            isDuck = false;
+            animator.SetBool("isDuck", false);
         }
 
         if (!isGrounded) {
@@ -42,8 +55,14 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {      
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, collisionLayers);
-        
-        float horizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
+        if (joystick.Horizontal >= .2f && !isDuck) {
+            horizontalMovement = joystick.Horizontal * moveSpeed * Time.deltaTime;
+        } else if (joystick.Horizontal <= -.2f && !isDuck) {
+            horizontalMovement = joystick.Horizontal * moveSpeed * Time.deltaTime;
+        } else {
+            horizontalMovement = 0;
+        }     
+        verticalMovement = joystick.Vertical;
         MovePlayer(horizontalMovement);      
     }
 
