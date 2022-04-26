@@ -16,7 +16,7 @@ Amélioration :
 - Système ennemi 
 - Vie
            - Attaque
-               - Bonus
+               - Bonus (JetPack, double jump, Gravité inversé)
 	       - Boss
 	       - Mode de difficulté (die and retry)
 	       - (Histoire)
