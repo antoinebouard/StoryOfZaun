@@ -10,6 +10,7 @@ public class PlayerLife : MonoBehaviour
     private Animator anim;
     public AudioSource audioSource;
     public AudioClip soundHurt;
+    public AudioClip soundDeath;
 
     private SpriteRenderer spriteRenderer;
 
@@ -29,6 +30,7 @@ public class PlayerLife : MonoBehaviour
         if (collision.gameObject.CompareTag("Trap")) {
             if (life >= 1) {
                 if (life > 1) {
+                    audioSource.PlayOneShot(soundHurt);
                     anim.SetTrigger("hurt");
                     yield return new WaitForSeconds(0.3f);
                     spriteRenderer.color = Color.clear;
@@ -53,6 +55,7 @@ public class PlayerLife : MonoBehaviour
     }
 
     private void Die() {
+        audioSource.PlayOneShot(soundDeath);
         anim.SetTrigger("death");
         rb.bodyType = RigidbodyType2D.Static;
     }
