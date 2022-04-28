@@ -8,6 +8,8 @@ public class PlayerLife : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator anim;
+    public AudioSource audioSource;
+    public AudioClip soundHurt;
 
     private SpriteRenderer spriteRenderer;
 
